@@ -1,6 +1,0 @@
-#!/bin/bash
-
-rm file.json
-rm -r __pycache__
-rm -r ./models/__pycache__
-rm -r ./models/engine/__pycache__
