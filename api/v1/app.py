@@ -4,6 +4,7 @@ from flask import Flask
 from models import storage
 from api.v1.views import app_views
 from os import getenv
+from flask import jsonify
 
 
 app = Flask(__name__)
@@ -14,6 +15,12 @@ app.register_blueprint(app_views)
 def CloseStorage(exception):
     """ close storage """
     storage.close()
+
+
+@app.errorhandler(404)
+def NotFound(error):
+    """ 404 not found response """
+    return jsonify({"error": "Not found"}), 404
 
 
 host = getenv("HBNB_API_HOST")
