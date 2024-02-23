@@ -6,5 +6,15 @@ from flask import jsonify
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
-    """ Returns JSON """
+    """ return status """
     return jsonify(status="OK")
+
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
+def stats():
+    """ return the number of each type """
+    return jsonify(amenities=storage.count("Amenity"),
+                   cities=storage.count("City"),
+                   places=storage.count("Place"),
+                   reviews=storage.count("Review"),
+                   states=storage.count("State"),
+                   users=storage.count("User"))
