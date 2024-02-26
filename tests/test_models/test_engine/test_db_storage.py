@@ -86,3 +86,43 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_method_exists(self):
+        """Test that FileStorage has a get method"""
+        self.assertTrue(hasattr(DBStorage, 'get'))
+        self.assertTrue(callable(getattr(DBStorage, 'get')))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_method_exists(self):
+        """Test that FileStorage has a count method"""
+        self.assertTrue(hasattr(DBStorage, 'count'))
+        self.assertTrue(callable(getattr(DBStorage, 'count')))
+
+
+class TestsMethodes(unittest.TestCase):
+    """Test the DBStorage class"""
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_get_method(self):
+        """Test the get method"""
+
+        new_state = State(name="California")
+        new_state.save()
+
+        retrieved_state = models.storage.get(State, new_state.id)
+        self.assertEqual(retrieved_state, new_state)
+
+        non_existent_state = models.storage.get(State, "non_existent_id")
+        self.assertIsNone(non_existent_state)
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_count_method(self):
+        """Test the count method"""
+        initial_count = models.storage.count()
+        new_state = State(name="Florida")
+        new_state.save()
+        self.assertEqual(models.storage.count(), initial_count + 1)
+        self.assertEqual(models.storage.count(State), 1)
