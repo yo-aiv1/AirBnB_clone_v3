@@ -5,7 +5,7 @@ Module Docs
 from api.v1.views import app_views
 from flask import jsonify, abort
 from flasgger.utils import swag_from
-from models import storage, storage_type
+from models import storage
 from models.place import Place
 from models.amenity import Amenity
 
